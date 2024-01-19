@@ -73,9 +73,31 @@ select *
 from hr_dept hr, acc_dept acc, admin_dept ad
 where hr.salary = (select max(salary) from hr_dept)
 and acc.salary = (select max(salary) from acc_dept)
-and ad.salary = (select max(salary) from admin_dept)
+and ad.salary = (select max(salary) from admin_dept);
 
 -- Task 4
+with same_salary as (
+SELECT salary, COUNT(*) as count
+FROM worker
+GROUP BY salary
+HAVING count > 1
+)
+select first_name, last_name, w.salary
+from worker w, same_salary ss
+where w.salary = ss.salary;
+
+-- Task 5
+select w.first_name, w.last_name, w.salary, b.bonus_amount, b.bonus_date
+from worker w, bonus b
+where b.bonus_date > '20-12-31'
+and b.bonus_date < '22-01-01'
+and w.worker_id = b.worker_ref_id
+
+-- Task 6
+
+ 
+
+
 
 
 
